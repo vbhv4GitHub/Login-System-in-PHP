@@ -2,6 +2,7 @@
 
     $alert = false;
     $danger = false;
+    $exists = false;
 
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
         
@@ -12,21 +13,28 @@
         $password = $_POST['password'];
         $cpassword = $_POST['cpassword'];
 
-        $exists=false; // It'll check if username exists in database already.
+        $uniqueUsernameQuery = "Select * from `users` where `username` = '$username'";
 
+        $result = mysqli_query($conn, $uniqueUsernameQuery);
+        $num = mysqli_num_rows($result);
 
-        if(($password==$cpassword) && $exists==false){
-            $sql = "INSERT INTO `users` (`username`, `password`, `dt`) VALUES ('$username', '$password', current_timestamp())";
-            $result = mysqli_query($conn, $sql);
-            if($result){
-                $alert = true;
-            }
-            else{
-                echo "Alert!!! Error inserting the data";
-            }
+        if($num > 0){
+            $exists = true; // Variable will be true in case of the username exists.
         }
         else{
-            $danger = true;
+            if(($password==$cpassword) && $exists==false){
+                $sql = "INSERT INTO `users` (`username`, `password`, `dt`) VALUES ('$username', '$password', current_timestamp())";
+                $result = mysqli_query($conn, $sql);
+                if($result){
+                    $alert = true;
+                }
+                else{
+                    echo "Alert!!! Error inserting the data";
+                }
+            }
+            else{
+                $danger = true;
+            }
         }
     }
 
@@ -63,10 +71,17 @@
             </div>';
         }
         if($danger){
+            echo '
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Error!!!</strong> Try again, password doesn\'t match.
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>';
+        }
+        if($exists){
         
             echo '
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <strong>Error!!!</strong>Try a different username or make sure you\'re typing the same password twice
+                <strong>Error!!!</strong> Please try another username. This one is already taken.
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>';
         }

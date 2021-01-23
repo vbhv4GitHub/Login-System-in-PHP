@@ -29,7 +29,7 @@
     require 'partials/_nav.php'; // Imports bootstrap navbar
     
     ?>
-    <h2>Welcome - <?php echo $_SERVER['username']; ?></h2>
+    <h2>Welcome - <?php echo $_SESSION['username']; ?></h2>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
