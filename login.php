@@ -11,20 +11,28 @@
         $username = $_POST['username'];
         $password = $_POST['password'];
   
-          $sql = "Select * from `users` where `username`='$username' and `password`='$password'";
-          $result = mysqli_query($conn, $sql);
-          $num = mysqli_num_rows($result);
-          if($num == 1){
-              $login = true;
-              session_start();
-              $_SESSION['loggedin'] = true;
-              $_SESSION['username'] = $username;
-              header("location: welcome.php"); // ! This function is used to redirect in PHP
-
-          }
-          else{
-              $danger = true;
-          }
+        //   $sql = "Select * from `users` where `username`='$username' and `password`='$password'";
+        // ! Implementing password hashing verification.
+        $sql = "Select * from `users` where `username`='$username'";
+        $result = mysqli_query($conn, $sql);
+        $num = mysqli_num_rows($result);
+        if($num == 1){
+            while($row = mysqli_fetch_assoc($result)){
+            if(password_verify($password, $row['password'])){    $login = true;
+                $login = true;
+                session_start();
+                $_SESSION['loggedin'] = true;
+                $_SESSION['username'] = $username;
+                header("location: welcome.php"); // ! This function is used to redirect in PHP
+            }
+            else{
+                $danger = true;
+                }
+            }
+        }
+        else{
+            $danger = true;
+        }
     }
 
 ?>

@@ -23,7 +23,9 @@
         }
         else{
             if(($password==$cpassword) && $exists==false){
-                $sql = "INSERT INTO `users` (`username`, `password`, `dt`) VALUES ('$username', '$password', current_timestamp())";
+                // ! Hashing password.
+                $hash = password_hash($password, PASSWORD_DEFAULT); // Password hashing requires 255 characters.
+                $sql = "INSERT INTO `users` (`username`, `password`, `dt`) VALUES ('$username', '$hash', current_timestamp())";
                 $result = mysqli_query($conn, $sql);
                 if($result){
                     $alert = true;
