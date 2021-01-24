@@ -92,15 +92,15 @@
             <div class="mb-3 col-md-6"> 
             <!-- col-md-6 makes the tag smaller. -->
                 <label for="username" class="form-label">Enter a Username</label>
-                <input type="text" class="form-control" id="username" name="username" aria-describedby="emailHelp">
+                <input type="text" maxlength="31" class="form-control" id="username" name="username" aria-describedby="emailHelp">
             </div>
             <div class="mb-3 col-md-6">
                 <label for="password" class="form-label">Enter Password</label>
-                <input type="password" class="form-control" id="password" name="password">
+                <input type="password" maxlength="31" class="form-control" id="password" name="password">
             </div>
             <div class="mb-3 col-md-6">
                 <label for="cpassword" class="form-label">Confirm Password</label>
-                <input type="password" class="form-control" id="cpassword" name="cpassword">
+                <input type="password" maxlength="31" class="form-control" id="cpassword" name="cpassword">
                 <div id="emailHelp" class="form-text">Make sure to type the same password again.</div>
             </div>
             <button type="submit" class="btn btn-primary col-md-6">Singup</button>
